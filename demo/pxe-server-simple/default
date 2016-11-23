@@ -1,0 +1,5 @@
+DEFAULT debian
+LABEL debian
+	kernel vmlinuz
+	append vga=normal initrd=initrd.img ramdisk_size=14332 root=/dev/nfs nfsroot=192.168.1.1:/pxeroot rw --
+TIMEOUT 0

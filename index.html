@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Docker Meetup : PXE</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<style>
+			.left {text-align: left; float: left;}
+			.right {text-align: right; float: right; margin-left: 2em !important;}
+			.white {background-color: white !important;}
+			.smaller {font-size: smaller !important;}
+		</style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Dynamiser votre infrastructure</h1>
+					<h2>avec PXE & Docker</h2>
+					<p>Arnaud Brunet</p>
+				</section>
+				<section>
+					<h2>Plan</h2>
+					<ol>
+						<li>Qui suis-je ?</li>
+						<li>La problématique</li>
+						<li>Vous avez dit PXE ?
+							<ul>
+								<li>Ca marche comment ?</li>
+								<li>Et en pratique ?</li>
+								<li>Demo</li>
+							</ul>
+						</li>
+						<li>Et docker ?
+							<ul>
+								<li>Demo avec docker</li>
+								<li>Cluster dynamique</li>
+							</ul>
+						</li>
+						<li>Conclusion</li>
+					</ol>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Qui suis-je ?</h2>
+						<ul class="left">
+							<li>Arnaud Brunet <span class="smaller">(arnaud.brunet@gmail.com)</span>  <img class="right" src="images/speaker.jpg" /></li>
+							<li>Architecte logiciel</li>
+							<li>au gouvernement - DTSI <span class="smaller">(arnaud.brunet@gouv.nc)</span></li>
+							<li>+10 ans d'expérience dans le developpement</li>
+							<li>gronono sur github</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Qui ne suis-je pas ?</h2>
+						<ul class="left">
+							<li>Un OPs (un gars des infras) <img class="right white" src="images/gouvnc.png" /></li>
+							<li>Quelqu'un utilisant PXE au quotidien</li>
+							<li>Un spécialise docker</li>
+							<li>Un porte-parole du gouvernement</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h2>La problématique</h2>
+					<section>
+						<img src="images/docker.png" />
+					</section>
+					<section>
+						<p>Focus sur docker engine</p>
+						<img src="images/docker_haut.png" />
+					</section>
+					<section>
+						<img src="images/docker_bas.png" />
+						<p>Comment on gère l'OS ?</p>
+					</section>
+					<section>
+						<img src="images/ordinateurs.jpeg">
+						<p>A la main ?</p>
+					</section>
+					<section>
+						<img src="images/datacenter.jpg">
+						<p>Ou en automatique ?</p>
+					</section>
+					<section>
+						<img src="images/vmware.jpg">
+						<p>idem pour les machines virtuelles</p>
+					</section>
+				</section>
+
+				<section>
+					<h2>Vous avez dit PXE ?</h2>
+					<section>
+						<img style="width: 60%" src="images/pxe.jpg">
+						<p>Boot par le network</p>
+					</section>
+					<section>
+						<ul>
+							<li>Pre-boot eXecution Environment</li>
+							<li>Avant: propriétaires puis Reverse-ARP, BootP</li>
+							<li>Apparut fin 90's</li>
+							<li>Plusieurs évolutions: gPXE (2006), iPXE (2011)</li>
+						</ul>
+					</section>
+					<section>
+						<p>A quoi ça sert ?</p>
+						<ul>
+							<li>Booter sans disque dur</li>
+							<li>Tester des OS</li>
+							<li>Fournir des outils de diagnostic</li>
+							<li>Installer un OS sans cd-room</li>
+							<hr>
+							<li>Gérer les OS de façon centralisée</li>
+							<li>Gérer les mises à jour</li>
+							<li>Ajouter de nouvelles machines</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h2>Comment ça marche ?</h2>
+					<section>
+						<img src="images/jamie.jpg">
+					</section>
+					<section>
+						<img src="images/pxe-sequence.png">
+					</section>
+				</section>
+
+				<section>
+					<h2>Et en pratique</h2>
+					<section>
+						<p>Il faut:</p>
+						<ul>
+							<li>Au moins deux machines: le serveur et un client</li>
+							<li>Un serveur DHCP</li>
+							<li>Un serveur TFTP</li>
+							<li>Un serveur NFS / HTTP ou autres suivant les besoins</li>
+						</ul>
+					</section>
+					<section>
+						<p>Demo 1 : boot sans PXE</p>
+					</section>
+					<section>
+						<p>Présentation du serveur PXE</p>
+						<ul>
+							<li>Debian minimaliste</li>
+							<li>Serveur DHCP / TFTP : dnsmasq</li>
+							<li>Configuration PXE</li>
+							<li>Serveur NFS</li>
+						</ul>
+					</section>
+					<section>
+						<p>Demo 2 : boot avec serveur PXE</p>
+					</section>
+				</section>
+
+				<section>
+					<h2>Et docker ?</h2>
+					<section>
+						<ul>
+							<li>1 machine = 1 OS = 1 docker engine</li>
+							<li>Demo 3 : docker engine sur les clients</li>
+						</ul>
+					</section>
+					<section>
+						<p>Cluster dynamique ?</p>
+						<ul>
+							<li>Gestion par cluster</li>
+							<li>Enregistement automatique</li>
+							<li>avec Kubernetes / Swarm</li>
+						</ul>
+					</section>
+					<section>
+						<p>CoreOS: PXE / docker / cluster</p>
+						<ul>
+							<li>etcd: données partagées</li>
+							<li>fleet: services partagées</li>
+							<li>flannel: gestion du reseau</li>
+							<li>maj auto</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Conclusion</h2>
+						<ul>
+							<li>Gros travail d'intégration</li>
+							<li>Soulève quelques questions</li>
+							<ul>
+								<li>Single point of failure : keep alive ?</li>
+								<li>Gestion des disques : Cepth Storage ?</li>
+								<li>Cas particulier de l'infra legacy ?</li>
+								<li>Design des services pour supporter le failover ?</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h2>Allons plus loin</h2>
+						<img src="images/raspberry.jpg" />
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+				slideNumber: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

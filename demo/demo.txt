@@ -1,0 +1,29 @@
+Debian de base (root / azerty):
+
+* installer une debian à partir de http://ftp.nc.debian.org/debian-iso/8.6.0/amd64/iso-cd/debian-8.6.0-amd64-netinst.iso (pas de gui, ssh server, standard system utilities)
+* apt-get install vim sudo module-assistant build-essential
+* m-a prepare
+* Guest Additions de VMWare
+* apt-get install nfs-kernel-server
+* apt-get install apache2
+
+# PXE
+* apt-get install dnsmasq debootstrap squashfs-tools
+* mkdir -p work/chroot
+* cd work && debootstrap --arch=amd64 stable chroot
+* cp /etc/network/interfaces chroot/etc/network/interfaces
+* cp /etc/resolv.conf chroot/etc/resolv.conf
+* vi chroot/etc/fstab
+* apt-get install linux-image-amd64
+
+Fichiers de configuration
+* Hôte PXE :
+  * dnsmasq : /etc/dnsmasq.conf
+  * network : /etc/network/interfaces
+  * ip forwarding : /etc/sysctl.conf
+  * iptables : /etc/network/if-pre-up.d/iptables
+  * nfs : /etc/exports
+  * pxe : /srv/tftp/pxelinux.cfg/default
+  * cloud-config : /var/www/html/pxe-cloud-config.yml
+* Client PXE
+  * fstab : /etc/fstab

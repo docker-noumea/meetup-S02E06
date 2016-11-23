@@ -1,0 +1,16 @@
+#cloud-config
+
+coreos:
+  etcd2:
+    discovery: https://discovery.etcd.io/52f06274ad7cf623f3da611654db41f2    # multi-region and multi-cloud deployments need to use $public_ipv4
+    advertise-client-urls: "http://$public_ipv4:2379"
+    initial-advertise-peer-urls: "http://$private_ipv4:2380"
+    listen-client-urls: "http://0.0.0.0:2379,http://0.0.0.0:4001"
+    listen-peer-urls: "http://$private_ipv4:2380,http://$private_ipv4:7001"
+  units:
+    - name: etcd2.service
+      command: start
+    - name: fleet.service
+      command: start
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQC/g5ZOvfuAAsCMqllnRwPMXNt7vkcammxnEe3DYF8MRJAb1f3z3QT6gGrUmKx/rLiIdDLyOru9i/M2BUfQAYXC3KD9juti75/xIFda8bsa/YJzhW/8LRmbm0Y/GhF1s0EdV6XhQ0Cp4W8h9p3WXr3fPllt70Q2nwD0s+HiT3UPtQ== root@localhost
